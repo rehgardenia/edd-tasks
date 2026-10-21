@@ -2,22 +2,18 @@ namespace Models
 {
     public class Lote
     {
-        private int Id ;
-        private int Qtde ;
-        private DateTime Venc ;
+        public int Id { get; }
+        public int Qtde { get; set; }
+        public DateTime Venc { get; }
 
-        public Lote()
-        { 
-        }
         public Lote(int id, int qtde, DateTime venc)
         {
+            if (qtde <= 0) throw new ArgumentOutOfRangeException(nameof(qtde), "A quantidade deve ser positiva.");
             Id = id;
             Qtde = qtde;
             Venc = venc;
         }
-        public override string ToString()
-        {
-            return $"{Id} -  {Qtde} - {Venc.ToString("dd/MM/yyyy")}";
-        }
+
+        public override string ToString() => $"{Id} - {Qtde} - {Venc:dd/MM/yyyy}";
     }
 }

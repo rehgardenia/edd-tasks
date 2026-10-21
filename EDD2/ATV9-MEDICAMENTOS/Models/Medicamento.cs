@@ -2,49 +2,42 @@ namespace Models
 {
     public class Medicamento
     {
-        private int Id ;
-        private string Nome ;
-        private string Laboratorio ;
-        private Queue<Lote> Lotes ;
+        private readonly Queue<Lote> lotes = new();
 
-        public Medicamento()
-        {
-            Lotes = new Queue<Lote>();
-        }
+        public int Id { get; }
+        public string Nome { get; }
+        public string Laboratorio { get; }
+        public IReadOnlyCollection<Lote> lotesView => lotes.ToArray();
+
         public Medicamento(int id, string nome, string laboratorio)
         {
             Id = id;
             Nome = nome;
             Laboratorio = laboratorio;
-            Lotes = new Queue<Lote>();
         }
-        public int qtdDisponivel()
+
+        public int qtdDisponivel() => lotes.Sum(lote => lote.Qtde);
+
+        public void adicionarLote(Lote lote)
         {
-            int total = 0;
-            foreach (var lote in Lotes)
-            {
-                total += lote.Qtde;
-            }
-            return total;
+            ArgumentNullException.ThrowIfNull(lote);
+            if (lote.Qtde <= 0) throw new ArgumentOutOfRangeException(nameof(lote), "A quantidade deve ser positiva.");
+            lotes.Enqueue(lote);
         }
-        public void comprar(Lote l)
-        {
-            Lotes.Enqueue(l);
-        }
+
+        public void comprar(Lote lote) => adicionarLote(lote);
+
         public bool vender(int qtde)
         {
-            if (qtde > qtdDisponivel())
-            {
-                return false;
-                throw new Exception("Quantidade indisponível");
-            }
+            if (qtde <= 0 || qtde > qtdDisponivel()) return false;
+
             while (qtde > 0)
             {
-                Lote loteAtual = Lotes.Peek();
+                Lote loteAtual = lotes.Peek();
                 if (loteAtual.Qtde <= qtde)
                 {
                     qtde -= loteAtual.Qtde;
-                    Lotes.Dequeue();
+                    lotes.Dequeue();
                 }
                 else
                 {
@@ -54,20 +47,10 @@ namespace Models
             }
             return true;
         }
-        public override string ToString()
-        {
-            return $"{Id} - {Nome} - {Laboratorio} - {qtdDisponivel()}";
-        }
-     
-        public override bool Equals(object obj)
-        {
-            if (obj is Medicamento other)
-            {
-                return Id == other.Id && Nome == other.Nome && Laboratorio == other.Laboratorio;
-            }
-            return false;
-        }
-        
-      
+
+        public override string ToString() => $"{Id} - {Nome} - {Laboratorio} - {qtdDisponivel()}";
+
+        public override bool Equals(object? obj) => obj is Medicamento outro && Id == outro.Id;
+        public override int GetHashCode() => Id.GetHashCode();
     }
 }

@@ -2,42 +2,28 @@ namespace Models
 {
     public class Medicamentos
     {
-        private List<Medicamento> listaMedicamentos;
+        private readonly List<Medicamento> listaMedicamentos = new();
+        public IReadOnlyList<Medicamento> ListaMedicamentos => listaMedicamentos;
 
-        public Medicamentos()
+        public void adicionar(Medicamento medicamento)
         {
-            listaMedicamentos = new List<Medicamento>();
+            ArgumentNullException.ThrowIfNull(medicamento);
+            if (listaMedicamentos.Any(item => item.Id == medicamento.Id))
+                throw new InvalidOperationException("Já existe medicamento cadastrado com esse ID.");
+            listaMedicamentos.Add(medicamento);
         }
-        public void adicionar(Medicamento m)
+
+        public void remover(Medicamento medicamento)
         {
-            listaMedicamentos.Add(m);
+            if (!listaMedicamentos.Contains(medicamento))
+                throw new InvalidOperationException("Medicamento não encontrado.");
+            if (medicamento.qtdDisponivel() > 0)
+                throw new InvalidOperationException("Não é possível remover um medicamento com estoque disponível.");
+            listaMedicamentos.Remove(medicamento);
         }
-        public void remover(Medicamento m)
-        {
-            if (!listaMedicamentos.Contains(m))
-            {
-                throw new Exception("Medicamento não encontrado");
-            }
-            else if(m.qtdDisponivel() > 0)
-            {
-                throw new Exception("Não é possível remover um medicamento com estoque disponível");
-            }
-            else
-            {
-                listaMedicamentos.Remove(m);
-            }
-           
-        }
-        public Medicamento buscar(Medicamento m)
-        {
-            foreach (var medicamento in listaMedicamentos)
-            {
-                if (medicamento.Id == id)
-                {
-                    return medicamento;
-                }
-            }
-            return null;
-        }
+
+        public Medicamento? buscar(Medicamento medicamento) => buscar(medicamento.Id);
+
+        public Medicamento? buscar(int id) => listaMedicamentos.FirstOrDefault(item => item.Id == id);
     }
 }
