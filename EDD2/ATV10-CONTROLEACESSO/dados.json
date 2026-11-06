@@ -1,0 +1,62 @@
+{
+  "Usuarios": [
+    {
+      "Id": 1,
+      "Nome": "Sophia"
+    },
+    {
+      "Id": 2,
+      "Nome": "Isabella"
+    },
+    {
+      "Id": 3,
+      "Nome": "Renata"
+    }
+  ],
+  "Ambientes": [
+    {
+      "Id": 2,
+      "Nome": "Show BTS"
+    }
+  ],
+  "Permissoes": [
+    {
+      "UsuarioId": 1,
+      "AmbienteId": 2
+    },
+    {
+      "UsuarioId": 2,
+      "AmbienteId": 2
+    },
+    {
+      "UsuarioId": 3,
+      "AmbienteId": 2
+    }
+  ],
+  "Logs": [
+    {
+      "UsuarioId": 1,
+      "AmbienteId": 2,
+      "DtAcesso": "2026-11-06T14:34:54.7579403-03:00",
+      "TipoAcesso": true
+    },
+    {
+      "UsuarioId": 2,
+      "AmbienteId": 2,
+      "DtAcesso": "2026-11-06T14:35:03.1554625-03:00",
+      "TipoAcesso": true
+    },
+    {
+      "UsuarioId": 3,
+      "AmbienteId": 2,
+      "DtAcesso": "2026-11-06T14:35:17.9554664-03:00",
+      "TipoAcesso": true
+    },
+    {
+      "UsuarioId": 3,
+      "AmbienteId": 2,
+      "DtAcesso": "2026-11-06T14:35:32.5635561-03:00",
+      "TipoAcesso": true
+    }
+  ]
+}

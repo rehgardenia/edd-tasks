@@ -12,6 +12,12 @@ namespace ATV10_controleacesso.Models
             this.Usuario = usuario;
             this.TipoAcesso = tipoAcesso;
         }
+        public Log(Usuario usuario, bool tipoAcesso, DateTime dtAcesso)
+        {
+            Usuario = usuario;
+            TipoAcesso = tipoAcesso;
+            DataHora = dtAcesso;
+        }
         public override string ToString()
         {
             string status = TipoAcesso ? "AUTORIZADO" : "NEGADO";

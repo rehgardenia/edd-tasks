@@ -97,7 +97,7 @@ internal class Program
     }
     public static void CadastrarUsuario(Cadastro cadastro)
     {
-         Console.Write("ID do usuário: ");
+        Console.Write("ID do usuário: ");
 
         if (!int.TryParse(Console.ReadLine(), out int id))
         {
@@ -122,7 +122,7 @@ internal class Program
     }
     public static void ConsultarUsuario(Cadastro cadastro)
     {
-         Console.Write("Digite o ID do usuário: ");
+        Console.Write("Digite o ID do usuário: ");
 
         if (!int.TryParse(Console.ReadLine(), out int idPesquisa))
         {
@@ -146,7 +146,7 @@ internal class Program
     }
     public static void RemoverUsuario(Cadastro cadastro)
     {
-         Console.Write("ID do usuário: ");
+        Console.Write("ID do usuário: ");
 
         if (!int.TryParse(Console.ReadLine(), out int idRemover))
         {
@@ -301,55 +301,67 @@ internal class Program
     private static void Main(string[] args)
     {
         Cadastro cadastro = new Cadastro();
+        cadastro.download(); // Carregar dados do arquivo JSON, se existir
         int opcao = -1;
-        while (opcao != 0)
+        try
         {
-            Menu();
-            Console.Write("Digite a opção desejada: ");
-            if (!int.TryParse(Console.ReadLine(), out opcao))
+            while (opcao != 0)
             {
-                Console.WriteLine("Opção inválida. Tente novamente.");
-                continue;
-            }
-            switch (opcao)
-            {
-                case 0:
-                    Console.WriteLine("Saindo do programa...");
-                    break;
-                case 1:
-                    CadastrarAmbiente(cadastro);
-                    break;
-                case 2:
-                    ConsultarAmbiente(cadastro);
-                    break;
-                case 3:
-                    RemoverAmbiente(cadastro);
-                    break;
-                case 4:
-                    CadastrarUsuario(cadastro);
-                    break;
-                case 5:
-                    ConsultarUsuario(cadastro);
-                    break;
-                case 6:
-                    RemoverUsuario(cadastro);
-                    break;
-                case 7:
-                    ConcederPermissao(cadastro);
-                    break;
-                case 8:
-                    RevogarPermissao(cadastro);
-                    break;
-                case 9:
-                    RegistrarAcesso(cadastro);
-                    break;
-                case 10:
-                    ConsultarLogsAcesso(cadastro);
-                    break;
-                default:
+                Menu();
+                Console.Write("Digite a opção desejada: ");
+                if (!int.TryParse(Console.ReadLine(), out opcao))
+                {
                     Console.WriteLine("Opção inválida. Tente novamente.");
-                    break;
+                    continue;
+                }
+                switch (opcao)
+                {
+                    case 0:
+                        Console.WriteLine("Saindo do programa...");
+                        break;
+                    case 1:
+                        CadastrarAmbiente(cadastro);
+                        break;
+                    case 2:
+                        ConsultarAmbiente(cadastro);
+                        break;
+                    case 3:
+                        RemoverAmbiente(cadastro);
+                        break;
+                    case 4:
+                        CadastrarUsuario(cadastro);
+                        break;
+                    case 5:
+                        ConsultarUsuario(cadastro);
+                        break;
+                    case 6:
+                        RemoverUsuario(cadastro);
+                        break;
+                    case 7:
+                        ConcederPermissao(cadastro);
+                        break;
+                    case 8:
+                        RevogarPermissao(cadastro);
+                        break;
+                    case 9:
+                        RegistrarAcesso(cadastro);
+                        break;
+                    case 10:
+                        ConsultarLogsAcesso(cadastro);
+                        break;
+                    default:
+                        Console.WriteLine("Opção inválida. Tente novamente.");
+                        break;
+                }
             }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Ocorreu um erro: {ex.Message}");
+        }
+        finally
+        {
+            cadastro.upload(); // Salvar dados no arquivo JSON ao sair
         }
     }
 }
