@@ -17,7 +17,7 @@ namespace ATV10_controleacesso
             this.Nome = nome;
             this.logs = new Queue<Log>();
         }
-        public void registrarLog(Log log)
+        public void RegistrarLog(Log log)
         {
             if (this.logs.Count >= MAX_LOGS)
             {
